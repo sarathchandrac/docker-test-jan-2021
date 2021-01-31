@@ -8,3 +8,6 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 # Copy all the files from current directory to tWORKDIR path of the virtual directory 
 COPY . .
+EXPOSE 5001 
+ENTRYPOINT [ "python" ] 
+CMD [ "app.py" ] 

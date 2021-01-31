@@ -13,6 +13,14 @@ def checkPostedData(postedData, functionName):
             return 200
 
 
+class Users(Resource):
+    def post(self):
+        return "x"
+
+    def get(self):
+        return "g"
+
+
 class Add(Resource):
     def post(self):
         params = request.get_json()
@@ -39,14 +47,10 @@ class Subtract(Resource):
 
 
 api.add_resource(Add, "/add")
+api.add_resource(Users, "/users")
 
 
-@app.route('/')
-def hello_world():
-    return "Hello World"
-
-
-@app.route('/users')
+@app.route('/users1')
 def get_users():
     users = [
         {
@@ -56,6 +60,8 @@ def get_users():
     ]
     return jsonify(users)
 
+#############################
+
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
