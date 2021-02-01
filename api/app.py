@@ -1,8 +1,36 @@
+from pymongo import MongoClient
 from flask import Flask, jsonify, request
 from flask_restful import Api, Resource
+from bson.json_util import dumps
+from bson.objectid import ObjectId
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 app = Flask(__name__)
 api = Api(app)
+
+mongoCluster = MongoClient(
+    "mongodb+srv://csc:data%40123@cluster0.saqhn.mongodb.net/test?authSource=admin&replicaSet=atlas-vp6kfn-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
+db = mongoCluster["test"]
+test_collection = db["test"]
+
+
+class Users(Resource):
+    def post(self):
+        return "x"
+
+    def get(self):
+        return jsonify(dumps(test_collection.find({})))
+
+
+
+@app.errorhandler(404)
+def not_found(error=None):
+    message = {
+        status: 404,
+        'message': 'Not Found' + request.url
+    }
+    return jsonify(message)
 
 
 def checkPostedData(postedData, functionName):
@@ -12,14 +40,7 @@ def checkPostedData(postedData, functionName):
         else:
             return 200
 
-
-class Users(Resource):
-    def post(self):
-        return "x"
-
-    def get(self):
-        return "g"
-
+            
 
 class Add(Resource):
     def post(self):
@@ -42,10 +63,6 @@ class Add(Resource):
         })
 
 
-class Subtract(Resource):
-    pass
-
-
 api.add_resource(Add, "/add")
 api.add_resource(Users, "/users")
 
@@ -59,6 +76,7 @@ def get_users():
         }
     ]
     return jsonify(users)
+
 
 #############################
 
